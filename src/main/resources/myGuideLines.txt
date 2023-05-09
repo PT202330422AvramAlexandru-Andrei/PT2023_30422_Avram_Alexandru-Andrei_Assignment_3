@@ -1,0 +1,19 @@
+The orders table would have columns such as order ID, customer name, order date, and total price.
+The order ID column would be the primary key for the orders table.
+
+The products table would have columns such as product ID, product name, description, and price.
+The product ID column would be the primary key for the products table.
+
+To link the products to the orders, you could create a third table called order_items,
+which would have columns such as order ID, product ID, quantity, and price.
+This table would have foreign keys referencing the order ID and product ID columns from the orders and products tables respectively.
+
+
+    +-----------+     +-------------+     +------------+
+    |   orders  |     | order_items |     |   products |
+    +-----------+     +-------------+     +------------+
+    | order_id  |-----| order_id    |     | product_id |
+    |customer_id|     | product_id  |-----| name       |
+    | total     |     | quantity    |     | price      |
+    +-----------+     | price       |     +------------+
+                      +-------------+
