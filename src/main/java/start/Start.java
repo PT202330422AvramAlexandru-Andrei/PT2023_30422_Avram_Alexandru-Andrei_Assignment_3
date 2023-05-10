@@ -6,12 +6,33 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import bll.ClientBLL;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import model.Client;
 
-public class Start {
+public class Start extends Application{
+
+	@Override
+	public void start(Stage stage) throws Exception {
+
+		Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("front-end/view.fxml"));
+		Scene scene = new Scene(root, 600, 600);
+		stage.setTitle("Orders Management System");
+		//stage.getIcons().add(new javafx.scene.image.Image(getClass().getClassLoader().getResourceAsStream("icon.png")));
+		stage.setResizable(true);
+		stage.setMinHeight(350);
+		stage.setMinWidth(600);
+		stage.setScene(scene);
+		stage.show();
+	}
+
 	protected static final Logger LOGGER = Logger.getLogger(Start.class.getName());
 
 	public static void main(String[] args) throws SQLException {
+		launch();
 
 		/*Client client = new Client("dummy name", "dummy address", "dummy@address.co", 18);
 
@@ -117,7 +138,6 @@ public class Start {
 			break;
 		}
 	}
-	
-	
+
 
 }

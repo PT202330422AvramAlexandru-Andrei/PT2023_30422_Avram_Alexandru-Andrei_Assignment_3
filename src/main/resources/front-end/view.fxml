@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<GridPane alignment="center" hgap="10" vgap="10" xmlns:fx="http://javafx.com/fxml"
+          fx:controller="presentation.Controller"
+          stylesheets="/front-end/style.css">
+    <padding>
+        <Insets top="25" right="25" bottom="25" left="25"/>
+    </padding>
+
+    <Label style="-fx-font-size: 20px" GridPane.columnSpan="1" GridPane.halignment="CENTER">Orders Management System</Label>
+
+    <Button fx:id="toClient" GridPane.rowIndex="1" GridPane.columnIndex="0">Client Operations</Button>
+    <Button fx:id="toProduct" GridPane.rowIndex="2" GridPane.columnIndex="0">Product Operations</Button>
+    <Button fx:id="toOrder" GridPane.rowIndex="3" GridPane.columnIndex="0">Order Operations</Button>
+</GridPane>
