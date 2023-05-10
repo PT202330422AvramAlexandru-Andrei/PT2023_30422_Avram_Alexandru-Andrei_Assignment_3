@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import bll.validators.AgeValidator;
 import bll.validators.EmailValidator;
 import bll.validators.Validator;
 import dao.ClientDAO;
@@ -17,7 +16,6 @@ public class ClientBLL {
 	public ClientBLL() {
 		validators = new ArrayList<Validator<Client>>();
 		validators.add(new EmailValidator());
-		validators.add(new AgeValidator());
 	}
 
 	public Client findClientById(int id) {
@@ -33,5 +31,20 @@ public class ClientBLL {
 			v.validate(client);
 		}
 		return ClientDAO.insert(client);
+	}
+
+	public int deleteClient(int id) {
+		return ClientDAO.delete(id);
+	}
+
+	public int updateClient(Client client, String name, String address, String email, int age) {
+		for (Validator<Client> v : validators) {
+			v.validate(client);
+		}
+		return ClientDAO.update(client, name, address, email, age);
+	}
+
+	public void selectAll() {
+		ClientDAO.selectAll();
 	}
 }

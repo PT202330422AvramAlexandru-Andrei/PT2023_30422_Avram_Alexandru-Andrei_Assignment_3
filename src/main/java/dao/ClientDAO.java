@@ -16,6 +16,9 @@ public class ClientDAO {
 	protected static final Logger LOGGER = Logger.getLogger(ClientDAO.class.getName());
 	private static final String insertStatementString = "INSERT INTO client (name,address,email,age)" + " VALUES (?,?,?,?)";
 	private final static String findStatementString = "SELECT * FROM client where id = ?";
+	private final static String deleteStatementString = "DELETE FROM client WHERE id = ?";
+	private final static String updateStatementString = "UPDATE client SET name = ?, address = ?, email = ?, age = ? WHERE id = ?";
+	private final static String selectAllStatementString = "SELECT * FROM client";
 
 	public static Client findById(int clientId) {
 		Client toReturn = null;
@@ -44,6 +47,56 @@ public class ClientDAO {
 		return toReturn;
 	}
 
+	public static int delete(int clientId) {
+		Connection dbConnection = ConnectionFactory.getConnection();
+
+		PreparedStatement deleteStatement = null;
+		int deletedId = -1;
+		try {
+			deleteStatement = dbConnection.prepareStatement(deleteStatementString, Statement.RETURN_GENERATED_KEYS);
+			deleteStatement.setInt(1, clientId);
+			deleteStatement.executeUpdate();
+
+			ResultSet rs = deleteStatement.getGeneratedKeys();
+			if (rs.next()) {
+				deletedId = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			LOGGER.log(Level.WARNING, "ClientDAO:delete " + e.getMessage());
+		} finally {
+			ConnectionFactory.close(deleteStatement);
+			ConnectionFactory.close(dbConnection);
+		}
+		return deletedId;
+	}
+
+	public static int update(Client client, String name, String address, String email, int age) {
+		Connection dbConnection = ConnectionFactory.getConnection();
+
+		PreparedStatement updateStatement = null;
+		int updatedId = -1;
+		try {
+			updateStatement = dbConnection.prepareStatement(updateStatementString, Statement.RETURN_GENERATED_KEYS);
+			updateStatement.setString(1, name);
+			updateStatement.setString(2, address);
+			updateStatement.setString(3, email);
+			updateStatement.setInt(4, age);
+			updateStatement.setInt(5, client.getId());
+			updateStatement.executeUpdate();
+
+			ResultSet rs = updateStatement.getGeneratedKeys();
+			if (rs.next()) {
+				updatedId = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			LOGGER.log(Level.WARNING, "ClientDAO:update " + e.getMessage());
+		} finally {
+			ConnectionFactory.close(updateStatement);
+			ConnectionFactory.close(dbConnection);
+		}
+		return updatedId;
+	}
+
 	public static int insert(Client client) {
 		Connection dbConnection = ConnectionFactory.getConnection();
 
@@ -68,5 +121,28 @@ public class ClientDAO {
 			ConnectionFactory.close(dbConnection);
 		}
 		return insertedId;
+	}
+
+	public static void selectAll() {
+		Connection dbConnection = ConnectionFactory.getConnection();
+
+		PreparedStatement selectAllStatement = null;
+		try {
+			selectAllStatement = dbConnection.prepareStatement(selectAllStatementString);
+			ResultSet rs = selectAllStatement.executeQuery();
+			while(rs.next()) {
+				int id = rs.getInt("id");
+				String name = rs.getString("name");
+				String address = rs.getString("address");
+				String email = rs.getString("email");
+				int age = rs.getInt("age");
+				System.out.println("Client: " + id + " " + name + " " + address + " " + email + " " + age);
+			}
+		} catch (SQLException e) {
+			LOGGER.log(Level.WARNING, "ClientDAO:selectAll " + e.getMessage());
+		} finally {
+			ConnectionFactory.close(selectAllStatement);
+			ConnectionFactory.close(dbConnection);
+		}
 	}
 }
