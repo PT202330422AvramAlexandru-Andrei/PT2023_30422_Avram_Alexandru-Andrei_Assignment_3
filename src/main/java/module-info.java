@@ -10,6 +10,7 @@ module OrdersManagement {
     requires java.datatransfer;
 
     opens start to javafx.fxml;
+    opens presentation to javafx.fxml;
     exports start to javafx.graphics;
     exports presentation to javafx.fxml;
 }

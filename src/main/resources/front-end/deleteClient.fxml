@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<GridPane alignment="center" hgap="10" vgap="10" xmlns:fx="http://javafx.com/fxml"
+          fx:controller="presentation.ClientController"
+          stylesheets="/front-end/style.css">
+    <padding>
+        <Insets top="25" right="25" bottom="25" left="25"/>
+    </padding>
+
+    <Label style="-fx-font-size: 20px" GridPane.columnSpan="1" GridPane.halignment="CENTER">Delete Client</Label>
+
+    <Label text="Client ID" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+    <TextField fx:id="deleteId" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+    <Button fx:id="deleteClient" GridPane.rowIndex="2" GridPane.columnIndex="0" onAction="#deleteClient">Delete Client</Button>
+
+    <Button fx:id="toClient" GridPane.rowIndex="5" GridPane.columnIndex="1" onAction="#toClientPage">Back</Button>
+</GridPane>

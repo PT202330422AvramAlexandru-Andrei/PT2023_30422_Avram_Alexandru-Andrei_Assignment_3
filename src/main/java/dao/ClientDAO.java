@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -70,23 +72,22 @@ public class ClientDAO {
 		return deletedId;
 	}
 
-	public static int update(Client client, String name, String address, String email, int age) {
+	public static int update(int client_id, String name, String address, String email, int age) {
 		Connection dbConnection = ConnectionFactory.getConnection();
 
 		PreparedStatement updateStatement = null;
-		int updatedId = -1;
 		try {
 			updateStatement = dbConnection.prepareStatement(updateStatementString, Statement.RETURN_GENERATED_KEYS);
 			updateStatement.setString(1, name);
 			updateStatement.setString(2, address);
 			updateStatement.setString(3, email);
 			updateStatement.setInt(4, age);
-			updateStatement.setInt(5, client.getId());
+			updateStatement.setInt(5, client_id);
 			updateStatement.executeUpdate();
 
 			ResultSet rs = updateStatement.getGeneratedKeys();
 			if (rs.next()) {
-				updatedId = rs.getInt(1);
+				client_id = rs.getInt(1);
 			}
 		} catch (SQLException e) {
 			LOGGER.log(Level.WARNING, "ClientDAO:update " + e.getMessage());
@@ -94,7 +95,7 @@ public class ClientDAO {
 			ConnectionFactory.close(updateStatement);
 			ConnectionFactory.close(dbConnection);
 		}
-		return updatedId;
+		return client_id;
 	}
 
 	public static int insert(Client client) {
@@ -123,7 +124,7 @@ public class ClientDAO {
 		return insertedId;
 	}
 
-	public static void selectAll() {
+	public static void showAll() {
 		Connection dbConnection = ConnectionFactory.getConnection();
 
 		PreparedStatement selectAllStatement = null;
@@ -144,5 +145,50 @@ public class ClientDAO {
 			ConnectionFactory.close(selectAllStatement);
 			ConnectionFactory.close(dbConnection);
 		}
+	}
+
+	public static List<Client> selectAll() {
+		Connection dbConnection = ConnectionFactory.getConnection();
+
+		PreparedStatement selectAllStatement = null;
+		List<Client> clients = new ArrayList<Client>();
+		try {
+			selectAllStatement = dbConnection.prepareStatement(selectAllStatementString);
+			ResultSet rs = selectAllStatement.executeQuery();
+			while(rs.next()) {
+				int id = rs.getInt("id");
+				String name = rs.getString("name");
+				String address = rs.getString("address");
+				String email = rs.getString("email");
+				int age = rs.getInt("age");
+				clients.add(new Client(id, name, address, email, age));
+			}
+		} catch (SQLException e) {
+			LOGGER.log(Level.WARNING, "ClientDAO:selectAll " + e.getMessage());
+		} finally {
+			ConnectionFactory.close(selectAllStatement);
+			ConnectionFactory.close(dbConnection);
+		}
+		return clients;
+	}
+
+	public static int countAll() {
+		Connection dbConnection = ConnectionFactory.getConnection();
+
+		PreparedStatement selectAllStatement = null;
+		int count = 0;
+		try {
+			selectAllStatement = dbConnection.prepareStatement(selectAllStatementString);
+			ResultSet rs = selectAllStatement.executeQuery();
+			while(rs.next()) {
+				count++;
+			}
+		} catch (SQLException e) {
+			LOGGER.log(Level.WARNING, "ClientDAO:countAll " + e.getMessage());
+		} finally {
+			ConnectionFactory.close(selectAllStatement);
+			ConnectionFactory.close(dbConnection);
+		}
+		return count;
 	}
 }

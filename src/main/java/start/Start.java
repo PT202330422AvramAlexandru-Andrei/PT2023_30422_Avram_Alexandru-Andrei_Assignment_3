@@ -1,8 +1,8 @@
 package start;
 
+import java.awt.print.PrinterException;
 import java.sql.SQLException;
 import java.util.Scanner;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import bll.ClientBLL;
@@ -12,6 +12,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.Client;
+
+import javax.swing.*;
 
 public class Start extends Application{
 
@@ -31,7 +33,7 @@ public class Start extends Application{
 
 	protected static final Logger LOGGER = Logger.getLogger(Start.class.getName());
 
-	public static void main(String[] args) throws SQLException {
+	public static void main(String[] args) throws SQLException, PrinterException {
 		launch();
 
 		/*Client client = new Client("dummy name", "dummy address", "dummy@address.co", 18);
@@ -84,7 +86,7 @@ public class Start extends Application{
 		case 2:
 			System.out.println("~~~~~~~~~~~~~~~\n~ Edit Client ~\n~~~~~~~~~~~~~~~");
 			System.out.println("\n\n Which client do you want to edit? (enter id):\n\n");
-			clientBLL.selectAll();
+			clientBLL.showAll();
 			int id = scanner.nextInt();
 			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~\n~ What do you want to edit? ~\n~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 			System.out.println("[1] Name");
@@ -97,44 +99,44 @@ public class Start extends Application{
 					System.out.println("New Name: ");
 					String name1 = scanner.next();
 
-					clientBLL.updateClient(clientBLL.findClientById(id), name1, clientBLL.findClientById(id).getAddress(), clientBLL.findClientById(id).getEmail(), clientBLL.findClientById(id).getAge());
+					clientBLL.updateClient(id, name1, clientBLL.findClientById(id).getAddress(), clientBLL.findClientById(id).getEmail(), clientBLL.findClientById(id).getAge());
 					break;
 				case 2:
 					System.out.println("New Address: ");
 					String address1 = scanner.next();
 
-					clientBLL.updateClient(clientBLL.findClientById(id), clientBLL.findClientById(id).getName(), address1, clientBLL.findClientById(id).getEmail(), clientBLL.findClientById(id).getAge());
+					clientBLL.updateClient(id, clientBLL.findClientById(id).getName(), address1, clientBLL.findClientById(id).getEmail(), clientBLL.findClientById(id).getAge());
 					break;
 				case 3:
 					System.out.println("New Email: ");
 					String email1 = scanner.next();
 
-					clientBLL.updateClient(clientBLL.findClientById(id), clientBLL.findClientById(id).getName(), clientBLL.findClientById(id).getAddress(), email1, clientBLL.findClientById(id).getAge());
+					clientBLL.updateClient(id, clientBLL.findClientById(id).getName(), clientBLL.findClientById(id).getAddress(), email1, clientBLL.findClientById(id).getAge());
 					break;
 				case 4:
 					System.out.println("New Age: ");
 					int age1 = scanner.nextInt();
 
-					clientBLL.updateClient(clientBLL.findClientById(id), clientBLL.findClientById(id).getName(), clientBLL.findClientById(id).getAddress(), clientBLL.findClientById(id).getEmail(), age1);
+					clientBLL.updateClient(id, clientBLL.findClientById(id).getName(), clientBLL.findClientById(id).getAddress(), clientBLL.findClientById(id).getEmail(), age1);
 					break;
 			}
 
 			System.out.println("\n\n");
 
-			clientBLL.selectAll();
+			clientBLL.showAll();
 			break;
 		case 3:
 			System.out.println("~~~~~~~~~~~~~~~~~\n~ Delete Client ~\n~~~~~~~~~~~~~~~~~");
 			System.out.println("\n\n Which client do you want to delete? (enter id):\n\n");
-			clientBLL.selectAll();
+			clientBLL.showAll();
 			int id1 = scanner.nextInt();
 			clientBLL.deleteClient(id1);
 			System.out.println("\n\n");
-			clientBLL.selectAll();
+			clientBLL.showAll();
 			break;
 		case 4:
 			System.out.println("~~~~~~~~~~~~~~~~\n~ View Clients ~\n~~~~~~~~~~~~~~~~");
-			clientBLL.selectAll();
+			clientBLL.showAll();
 			break;
 		}
 	}

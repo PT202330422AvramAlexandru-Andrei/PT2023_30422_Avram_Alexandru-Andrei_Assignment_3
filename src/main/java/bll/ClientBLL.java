@@ -37,14 +37,22 @@ public class ClientBLL {
 		return ClientDAO.delete(id);
 	}
 
-	public int updateClient(Client client, String name, String address, String email, int age) {
+	public int updateClient(int client, String name, String address, String email, int age) {
 		for (Validator<Client> v : validators) {
-			v.validate(client);
+			v.validate(findClientById(client));
 		}
 		return ClientDAO.update(client, name, address, email, age);
 	}
 
-	public void selectAll() {
-		ClientDAO.selectAll();
+	public void showAll() {
+		ClientDAO.showAll();
+	}
+
+	public List<Client> selectAll() {
+		return ClientDAO.selectAll();
+	}
+
+	public int countClients() {
+		return ClientDAO.countAll();
 	}
 }

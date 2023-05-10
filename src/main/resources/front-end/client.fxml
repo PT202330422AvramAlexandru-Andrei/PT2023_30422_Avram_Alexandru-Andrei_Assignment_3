@@ -8,9 +8,16 @@
 <?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
 <GridPane alignment="center" hgap="10" vgap="10" xmlns:fx="http://javafx.com/fxml"
-          fx:controller="presentation.Controller"
+          fx:controller="presentation.ClientController"
           stylesheets="/front-end/style.css">
     <padding>
         <Insets top="25" right="25" bottom="25" left="25"/>
     </padding>
+
+    <Label style="-fx-font-size: 20px" GridPane.columnSpan="1" GridPane.halignment="CENTER">Client</Label>
+
+    <Button fx:id="toAddClient" GridPane.rowIndex="1" GridPane.columnIndex="0" onAction="#toAddClient">Add Client</Button>
+    <Button fx:id="toEditClient" GridPane.rowIndex="2" GridPane.columnIndex="0" onAction="#toEditClient">Edit Client</Button>
+    <Button fx:id="toDeleteClient" GridPane.rowIndex="3" GridPane.columnIndex="0" onAction="#toDeleteClient">Delete Client</Button>
+    <Button GridPane.rowIndex="4" GridPane.columnIndex="0" onAction="#viewClients">View Clients</Button>
 </GridPane>

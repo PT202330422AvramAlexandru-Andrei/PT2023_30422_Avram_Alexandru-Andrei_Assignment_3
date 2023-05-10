@@ -14,7 +14,7 @@
 
     <Label style="-fx-font-size: 20px" GridPane.columnSpan="1" GridPane.halignment="CENTER">Orders Management System</Label>
 
-    <Button fx:id="toClient" GridPane.rowIndex="1" GridPane.columnIndex="0">Client Operations</Button>
-    <Button fx:id="toProduct" GridPane.rowIndex="2" GridPane.columnIndex="0">Product Operations</Button>
-    <Button fx:id="toOrder" GridPane.rowIndex="3" GridPane.columnIndex="0">Order Operations</Button>
+    <Button fx:id="toClient" GridPane.rowIndex="1" GridPane.columnIndex="0" onAction="#toClientPage">Client Operations</Button>
+    <Button fx:id="toProduct" GridPane.rowIndex="2" GridPane.columnIndex="0" onAction="#toProductPage">Product Operations</Button>
+    <Button fx:id="toOrder" GridPane.rowIndex="3" GridPane.columnIndex="0" onAction="#toOrderPage">Order Operations</Button>
 </GridPane>
