@@ -21,10 +21,7 @@ public class QueryBuilder {
         StringBuilder sb = new StringBuilder();
         Field[] fields1 = Arrays.copyOfRange(fields, 1, fields.length);
         for (Field field : fields1) {
-            String fieldName = field.getName();
-            String typeName = field.getType().getSimpleName();
-            sb.append(fieldName).append(" ").append(typeName);
-            sb.append(", ");
+            sb.append(field.getName() + ",");
         }
         sb.deleteCharAt(sb.length() - 1);
         return sb.toString();

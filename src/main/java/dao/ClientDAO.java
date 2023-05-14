@@ -22,7 +22,7 @@ public class ClientDAO {
 	private final static String updateStatementString = "UPDATE client SET name = ?, address = ?, email = ?, age = ? WHERE id = ?";
 	private final static String selectAllStatementString = "SELECT * FROM client";
 
-	public static Client findById(int clientId) {
+	/*public static Client findById(int clientId) {
 		Client toReturn = null;
 
 		Connection dbConnection = ConnectionFactory.getConnection();
@@ -47,9 +47,9 @@ public class ClientDAO {
 			ConnectionFactory.close(dbConnection);
 		}
 		return toReturn;
-	}
+	}*/
 
-	public static int delete(int clientId) {
+	/*public static int delete(int clientId) {
 		Connection dbConnection = ConnectionFactory.getConnection();
 
 		PreparedStatement deleteStatement = null;
@@ -70,7 +70,7 @@ public class ClientDAO {
 			ConnectionFactory.close(dbConnection);
 		}
 		return deletedId;
-	}
+	}*/
 
 	public static int update(int client_id, String name, String address, String email, int age) {
 		Connection dbConnection = ConnectionFactory.getConnection();
@@ -98,7 +98,7 @@ public class ClientDAO {
 		return client_id;
 	}
 
-	public static int insert(Client client) {
+	/*public static int insert(Client client) {
 		Connection dbConnection = ConnectionFactory.getConnection();
 
 		PreparedStatement insertStatement = null;
@@ -122,7 +122,7 @@ public class ClientDAO {
 			ConnectionFactory.close(dbConnection);
 		}
 		return insertedId;
-	}
+	}*/
 
 	public static void showAll() {
 		Connection dbConnection = ConnectionFactory.getConnection();
@@ -147,7 +147,7 @@ public class ClientDAO {
 		}
 	}
 
-	public static List<Client> selectAll() {
+	/*public static List<Client> selectAll() {
 		Connection dbConnection = ConnectionFactory.getConnection();
 
 		PreparedStatement selectAllStatement = null;
@@ -170,7 +170,7 @@ public class ClientDAO {
 			ConnectionFactory.close(dbConnection);
 		}
 		return clients;
-	}
+	}*/
 
 	public static int countAll() {
 		Connection dbConnection = ConnectionFactory.getConnection();

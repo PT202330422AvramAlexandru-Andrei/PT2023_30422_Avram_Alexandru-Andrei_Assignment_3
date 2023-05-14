@@ -81,21 +81,23 @@ public abstract class AbstractDAO {
             insertStatement = dbConnection.prepareStatement(insertString, Statement.RETURN_GENERATED_KEYS);
             Field[] fields = obj.getClass().getDeclaredFields();
             LOGGER.log(Level.INFO, "Fields: " + fields.length);
-            for (int i = 0; i < fields.length - 1; i++) {
+            insertStatement.setObject(1, null);
+            for (int i = 1; i < fields.length; i++) {
                 Field field = fields[i];
                 field.setAccessible(true);
                 Object value = field.get(obj);
-//                insertStatement.setObject(i + 1, value);
-                if (field.getType().getSimpleName().equals(String.class.getSimpleName())) {
-                    insertStatement.setString(i + 1, value.toString());
-                } else if (field.getType().getSimpleName().equals("int")) {
-                    insertStatement.setInt(i + 1, (int) value);
-                } else if (field.getType().getSimpleName().equals("double")) {
-                    insertStatement.setDouble(i + 1, (double) value);
-                } else if (field.getType().getSimpleName().equals("float")) {
-                    insertStatement.setFloat(i + 1, (float) value);
+
+                if (field.getType().equals("int")) {
+                    value = Integer.parseInt(value.toString());
                 }
+                if (field.getType().equals("float")) {
+                    value = Float.parseFloat(value.toString());
+                }
+
+                insertStatement.setObject(i, value);
             }
+
+            LOGGER.log(Level.INFO, "Insert statement: " + insertStatement.toString());
             insertStatement.executeUpdate();
 
             ResultSet rs = insertStatement.getGeneratedKeys();
@@ -103,7 +105,7 @@ public abstract class AbstractDAO {
                 insertedId = rs.getInt(1);
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.WARNING,  obj.getClass().getSimpleName().toLowerCase() + "DAO:insert " + e.getMessage());
+            LOGGER.log(Level.WARNING,  obj.getClass().getSimpleName().toLowerCase() + "(a)DAO:insert " + e.getMessage());
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         } finally {
