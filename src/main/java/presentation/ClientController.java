@@ -1,16 +1,16 @@
 package presentation;
 
 import bll.ClientBLL;
+import dao.AbstractDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import model.Client;
-import start.ReflectionExample;
+import start.Reflection;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -20,7 +20,7 @@ public class ClientController {
     ClientBLL clientBLL = new ClientBLL();
 
     JFrame frame = new JFrame("Clients Table");
-    JTable clientTable = ReflectionExample.createTable(clientBLL.selectAll());
+    JTable clientTable = AbstractDAO.createTable(AbstractDAO.selectAll(Client.class));
     JScrollPane scrollPane = new JScrollPane(clientTable);
 
     @FXML
@@ -71,9 +71,9 @@ public class ClientController {
     @FXML
     public void addClient() throws IOException {
         Client client = new Client(name.getText(), address.getText(), email.getText(), Integer.parseInt(age.getText()));
-        clientBLL.insertClient(client);
+        AbstractDAO.insert(client);
 
-        clientTable = ReflectionExample.createTable(clientBLL.selectAll());
+        clientTable = AbstractDAO.createTable(AbstractDAO.selectAll(Client.class));
         scrollPane = new JScrollPane(clientTable);
         frame.setContentPane(scrollPane);
         frame.pack();
@@ -86,9 +86,9 @@ public class ClientController {
 
     @FXML
     public void deleteClient() throws IOException {
-        clientBLL.deleteClient(Integer.parseInt(deleteId.getText()));
+        AbstractDAO.delete(Integer.parseInt(deleteId.getText()), Client.class);
 
-        clientTable = ReflectionExample.createTable(clientBLL.selectAll());
+        clientTable = AbstractDAO.createTable(clientBLL.selectAll());
         scrollPane = new JScrollPane(clientTable);
         frame.setContentPane(scrollPane);
         frame.pack();
@@ -112,7 +112,7 @@ public class ClientController {
     public void editClient() throws IOException {
         clientBLL.updateClient(Integer.parseInt(editId.getText()), editName.getText(), editAddress.getText(), editEmail.getText(), Integer.parseInt(editAge.getText()));
 
-        clientTable = ReflectionExample.createTable(clientBLL.selectAll());
+        clientTable = AbstractDAO.createTable(clientBLL.selectAll());
         scrollPane = new JScrollPane(clientTable);
         frame.setContentPane(scrollPane);
         frame.pack();
