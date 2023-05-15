@@ -12,7 +12,7 @@ import model.Client;
 
 public class ClientBLL {
 
-	private List<Validator<Client>> validators;
+	private static List<Validator<Client>> validators;
 
 	public ClientBLL() {
 		validators = new ArrayList<Validator<Client>>();
@@ -27,14 +27,14 @@ public class ClientBLL {
 		return c;
 	}
 
-	public int insertClient(Client client) {
+	public static int insertClient(Client client) {
 		for (Validator<Client> v : validators) {
 			v.validate(client);
 		}
 		return AbstractDAO.insert(client);
 	}
 
-	public int deleteClient(int id) {
+	public static int deleteClient(int id) {
 		return AbstractDAO.delete(id, Client.class);
 	}
 

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<GridPane alignment="center" hgap="10" vgap="10" xmlns:fx="http://javafx.com/fxml"
+          fx:controller="presentation.ProductController"
+          stylesheets="/front-end/style.css">
+    <padding>
+        <Insets top="25" right="25" bottom="25" left="25"/>
+    </padding>
+
+    <Label style="-fx-font-size: 20px" GridPane.columnSpan="1" GridPane.halignment="CENTER">Edit Product</Label>
+
+    <Label text="Product ID" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+    <TextField fx:id="editId" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+    <Label text="New Name" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+    <TextField fx:id="editName" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+    <Label text="New Price" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+    <TextField fx:id="editPrice" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+    <Label text="New Quantity" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+    <TextField fx:id="editQuantity" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+    <Button fx:id="editProduct" GridPane.rowIndex="5" GridPane.columnIndex="0" onAction="#editProduct">Edit Product</Button>
+
+    <Button fx:id="toProduct" GridPane.rowIndex="5" GridPane.columnIndex="1" onAction="#toProductPage">Back</Button>
+
+</GridPane>

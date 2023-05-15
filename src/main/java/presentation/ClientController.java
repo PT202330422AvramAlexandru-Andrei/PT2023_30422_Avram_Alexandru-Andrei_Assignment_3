@@ -24,6 +24,15 @@ public class ClientController {
     JScrollPane scrollPane = new JScrollPane(clientTable);
 
     @FXML
+    public Button toMain;
+    @FXML
+    public void toMain() throws IOException {
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("front-end/view.fxml"));
+        Scene crtScene = toMain.getScene();
+        crtScene.setRoot(root);
+    }
+
+    @FXML
     public Button toAddClient;
 
     @FXML
@@ -71,7 +80,7 @@ public class ClientController {
     @FXML
     public void addClient() throws IOException {
         Client client = new Client(name.getText(), address.getText(), email.getText(), Integer.parseInt(age.getText()));
-        AbstractDAO.insert(client);
+        ClientBLL.insertClient(client);
 
         clientTable = AbstractDAO.createTable(AbstractDAO.selectAll(Client.class));
         scrollPane = new JScrollPane(clientTable);
@@ -86,7 +95,7 @@ public class ClientController {
 
     @FXML
     public void deleteClient() throws IOException {
-        AbstractDAO.delete(Integer.parseInt(deleteId.getText()), Client.class);
+        ClientBLL.deleteClient(Integer.parseInt(deleteId.getText()));
 
         clientTable = AbstractDAO.createTable(clientBLL.selectAll());
         scrollPane = new JScrollPane(clientTable);
@@ -110,6 +119,7 @@ public class ClientController {
 
     @FXML
     public void editClient() throws IOException {
+        //TODO: clientBLL.call the update method
         clientBLL.updateClient(Integer.parseInt(editId.getText()), editName.getText(), editAddress.getText(), editEmail.getText(), Integer.parseInt(editAge.getText()));
 
         clientTable = AbstractDAO.createTable(clientBLL.selectAll());

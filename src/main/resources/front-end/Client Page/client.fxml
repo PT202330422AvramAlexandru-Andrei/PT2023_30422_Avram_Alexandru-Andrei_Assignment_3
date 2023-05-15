@@ -20,4 +20,5 @@
     <Button fx:id="toEditClient" GridPane.rowIndex="2" GridPane.columnIndex="0" onAction="#toEditClient">Edit Client</Button>
     <Button fx:id="toDeleteClient" GridPane.rowIndex="3" GridPane.columnIndex="0" onAction="#toDeleteClient">Delete Client</Button>
     <Button GridPane.rowIndex="4" GridPane.columnIndex="0" onAction="#viewClients">View Clients</Button>
+    <Button fx:id="toMain" GridPane.rowIndex="5" GridPane.columnIndex="0" onAction="#toMain">Back</Button>
 </GridPane>

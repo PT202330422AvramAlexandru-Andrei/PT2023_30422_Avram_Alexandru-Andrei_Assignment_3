@@ -115,6 +115,32 @@ public abstract class AbstractDAO {
         return insertedId;
     }
 
+   /* public static int update(int id, String name, String address, String email, int age) {
+        Connection dbConnection = ConnectionFactory.getConnection();
+
+        PreparedStatement updateStatement = null;
+        try {
+            updateStatement = dbConnection.prepareStatement(updateStatementString, Statement.RETURN_GENERATED_KEYS);
+            updateStatement.setString(1, name);
+            updateStatement.setString(2, address);
+            updateStatement.setString(3, email);
+            updateStatement.setInt(4, age);
+            updateStatement.setInt(5, id);
+            updateStatement.executeUpdate();
+
+            ResultSet rs = updateStatement.getGeneratedKeys();
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.WARNING, "ClientDAO:update " + e.getMessage());
+        } finally {
+            ConnectionFactory.close(updateStatement);
+            ConnectionFactory.close(dbConnection);
+        }
+        return id;
+    }*/
+
     public static int delete(int id, Class<? extends Object> objClass) {
         Connection dbConnection = ConnectionFactory.getConnection();
 
@@ -188,6 +214,10 @@ public abstract class AbstractDAO {
         JTable table = new JTable();
         DefaultTableModel model = new DefaultTableModel();
 
+
+        if (list.isEmpty()) {
+            return table;
+        }
         Class<?> crtClass = list.get(0).getClass();
         Field[] fields = crtClass.getDeclaredFields();
 

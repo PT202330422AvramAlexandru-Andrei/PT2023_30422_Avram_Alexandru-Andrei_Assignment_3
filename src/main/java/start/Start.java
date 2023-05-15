@@ -56,11 +56,11 @@ public class Start extends Application{
 		//obtain field-value pairs for object through reflection
 		ReflectionExample.retrieveProperties(client);*/
 
-		Scanner scanner = new Scanner(System.in);
+		/*Scanner scanner = new Scanner(System.in);
 		ClientBLL clientBLL = new ClientBLL();
 		int option = 0;
-
-		System.out.println("Choose what you want to do: ");
+*/
+		/*System.out.println("Choose what you want to do: ");
 		System.out.println("[1] Add New Client");
 		System.out.println("[2] Edit Client");
 		System.out.println("[3] Delete Client");
@@ -138,7 +138,7 @@ public class Start extends Application{
 			System.out.println("~~~~~~~~~~~~~~~~\n~ View Clients ~\n~~~~~~~~~~~~~~~~");
 			clientBLL.showAll();
 			break;
-		}
+		}*/
 	}
 
 

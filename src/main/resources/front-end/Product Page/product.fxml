@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<GridPane alignment="center" hgap="10" vgap="10" xmlns:fx="http://javafx.com/fxml"
+          fx:controller="presentation.ProductController"
+          stylesheets="/front-end/style.css">
+    <padding>
+        <Insets top="25" right="25" bottom="25" left="25"/>
+    </padding>
+
+    <Label style="-fx-font-size: 20px" GridPane.columnSpan="1" GridPane.halignment="CENTER">Product</Label>
+
+    <Button fx:id="toAddProduct" GridPane.rowIndex="1" GridPane.columnIndex="0" onAction="#toAddProduct">Add Product</Button>
+    <Button fx:id="toEditProduct" GridPane.rowIndex="2" GridPane.columnIndex="0" onAction="#toEditProduct">Edit Product</Button>
+    <Button fx:id="toDeleteProduct" GridPane.rowIndex="3" GridPane.columnIndex="0" onAction="#toDeleteProduct">Delete Product</Button>
+    <Button GridPane.rowIndex="4" GridPane.columnIndex="0" onAction="#viewProducts">View Products</Button>
+    <Button fx:id="toMain" GridPane.rowIndex="5" GridPane.columnIndex="0" onAction="#toMain">Back</Button>
+</GridPane>

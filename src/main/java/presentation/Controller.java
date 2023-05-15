@@ -25,21 +25,21 @@ public class Controller {
 
     @FXML
     public void toClientPage() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("front-end/client.fxml"));
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("front-end/Client Page/client.fxml"));
         Scene crtScene = toClient.getScene();
         crtScene.setRoot(root);
     }
 
     @FXML
     public void toProductPage() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("front-end/product.fxml"));
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("front-end/Product Page/product.fxml"));
         Scene crtScene = toClient.getScene();
         crtScene.setRoot(root);
     }
 
     @FXML
     public void toOrderPage() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("front-end/order.fxml"));
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("front-end/Order Page/order.fxml"));
         Scene crtScene = toClient.getScene();
         crtScene.setRoot(root);
     }
