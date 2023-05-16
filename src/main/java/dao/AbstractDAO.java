@@ -115,31 +115,53 @@ public abstract class AbstractDAO {
         return insertedId;
     }
 
-   /* public static int update(int id, String name, String address, String email, int age) {
-        Connection dbConnection = ConnectionFactory.getConnection();
+    public static void update(Object obj) {
+        Connection connection = ConnectionFactory.getConnection();
+        String tableName = obj.getClass().getSimpleName().toLowerCase();
+        String updateString = "UPDATE " + tableName + " SET ";
+        List<String> setStatements = new ArrayList<>();
+        String idFieldName = null;
+        try {
+            for (Field field : obj.getClass().getDeclaredFields()) {
 
+                field.setAccessible(true);
+                if (field.getType().equals(int.class)) {
+                    field.set(obj, Integer.parseInt(field.get(obj).toString()));
+                }
+                if (field.getType().equals(float.class) && !field.getName().toLowerCase().equals("id")) {
+                    field.set(obj, Float.parseFloat(field.get(obj).toString()));
+                }
+                if (!field.getName().equals("id")) {
+                    String fieldName = field.getName();
+                    Object value = field.get(obj);
+                    if (value instanceof String) {
+                        setStatements.add(fieldName + " = '" + value + "'");
+                    } else {
+                        setStatements.add(fieldName + " = " + value);
+                    }
+                } else {
+                    idFieldName = field.getName();
+                }
+            }
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+        updateString += String.join(", ", setStatements);
+        updateString += " WHERE " + idFieldName + " = ?";
         PreparedStatement updateStatement = null;
         try {
-            updateStatement = dbConnection.prepareStatement(updateStatementString, Statement.RETURN_GENERATED_KEYS);
-            updateStatement.setString(1, name);
-            updateStatement.setString(2, address);
-            updateStatement.setString(3, email);
-            updateStatement.setInt(4, age);
-            updateStatement.setInt(5, id);
+            updateStatement = connection.prepareStatement(updateString);
+            obj.getClass().getDeclaredFields()[0].setAccessible(true);
+            updateStatement.setInt(1, (int) obj.getClass().getDeclaredFields()[0].getInt(obj));
             updateStatement.executeUpdate();
-
-            ResultSet rs = updateStatement.getGeneratedKeys();
-            if (rs.next()) {
-                id = rs.getInt(1);
-            }
-        } catch (SQLException e) {
-            LOGGER.log(Level.WARNING, "ClientDAO:update " + e.getMessage());
+        } catch (SQLException | IllegalAccessException e) {
+            throw new RuntimeException(e);
         } finally {
             ConnectionFactory.close(updateStatement);
-            ConnectionFactory.close(dbConnection);
+            ConnectionFactory.close(connection);
         }
-        return id;
-    }*/
+    }
+
 
     public static int delete(int id, Class<? extends Object> objClass) {
         Connection dbConnection = ConnectionFactory.getConnection();

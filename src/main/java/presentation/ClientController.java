@@ -37,7 +37,7 @@ public class ClientController {
 
     @FXML
     public void toAddClient() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("front-end/addClient.fxml"));
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("front-end/Client Page/addClient.fxml"));
         Scene crtScene = toAddClient.getScene();
         crtScene.setRoot(root);
     }
@@ -47,7 +47,7 @@ public class ClientController {
 
     @FXML
     public void toDeleteClient() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("front-end/deleteClient.fxml"));
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("front-end/Client Page/deleteClient.fxml"));
         Scene crtScene = toDeleteClient.getScene();
         crtScene.setRoot(root);
     }
@@ -57,7 +57,7 @@ public class ClientController {
 
     @FXML
     public void toEditClient() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("front-end/editClient.fxml"));
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("front-end/Client Page/editClient.fxml"));
         Scene crtScene = toEditClient.getScene();
         crtScene.setRoot(root);
     }
@@ -67,7 +67,7 @@ public class ClientController {
 
     @FXML
     public void toClientPage() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("front-end/client.fxml"));
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("front-end/Client Page/client.fxml"));
         Scene crtScene = toClient.getScene();
         crtScene.setRoot(root);
     }

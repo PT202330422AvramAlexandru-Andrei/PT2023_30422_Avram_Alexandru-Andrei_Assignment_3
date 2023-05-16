@@ -27,4 +27,22 @@ public class QueryBuilder {
         return sb.toString();
     }
 
+    public static String updateFields(Field[] fields, Object obj) {
+        StringBuilder sb = new StringBuilder();
+        Field[] fields1 = Arrays.copyOfRange(fields, 1, fields.length);
+        for (Field field : fields1) {
+            field.setAccessible(true);
+            try {
+                Object value = field.get(obj);
+                if (value != null) {
+                    sb.append(field.getName() + " = " + value + ",");
+                }
+            } catch (IllegalArgumentException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        sb.deleteCharAt(sb.length() - 1);
+        return sb.toString();
+    }
+
 }

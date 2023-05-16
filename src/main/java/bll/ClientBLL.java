@@ -7,7 +7,6 @@ import java.util.NoSuchElementException;
 import bll.validators.EmailValidator;
 import bll.validators.Validator;
 import dao.AbstractDAO;
-import dao.ClientDAO;
 import model.Client;
 
 public class ClientBLL {
@@ -38,22 +37,19 @@ public class ClientBLL {
 		return AbstractDAO.delete(id, Client.class);
 	}
 
-	public int updateClient(int client, String name, String address, String email, int age) {
+	public void updateClient(int client, String name, String address, String email, int age) {
 		for (Validator<Client> v : validators) {
 			v.validate(findClientById(client));
 		}
-		return ClientDAO.update(client, name, address, email, age);
-	}
-
-	public void showAll() {
-		ClientDAO.showAll();
+		Client c = findClientById(client);
+		c.setName(name);
+		c.setAddress(address);
+		c.setEmail(email);
+		c.setAge(age);
+		AbstractDAO.update(c);
 	}
 
 	public List<?> selectAll() {
 		return AbstractDAO.selectAll(Client.class);
-	}
-
-	public int countClients() {
-		return ClientDAO.countAll();
 	}
 }
