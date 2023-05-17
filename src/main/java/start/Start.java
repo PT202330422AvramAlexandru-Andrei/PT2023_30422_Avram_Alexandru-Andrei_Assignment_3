@@ -15,8 +15,17 @@ import model.Client;
 
 import javax.swing.*;
 
+/**
+ * This is the main class of the project. It contains the main method and the
+ * start method.
+ */
 public class Start extends Application{
 
+	/**
+	 * This is the main method which makes use of start method.
+	 *
+	 * @param stage Stage object.
+	 */
 	@Override
 	public void start(Stage stage) throws Exception {
 

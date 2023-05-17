@@ -2,6 +2,14 @@ package model;
 
 import dao.AbstractDAO;
 
+/**
+ * This class is used to model the orders table, which contains the following fields:
+ * id - the order id,
+ * product_id - the product being ordered,
+ * client_id - the client ordering the product,
+ * quantity - how much of the product is being ordered,
+ * total - total price of the order.
+ */
 public class Orders {
     int id;
     int product_id;

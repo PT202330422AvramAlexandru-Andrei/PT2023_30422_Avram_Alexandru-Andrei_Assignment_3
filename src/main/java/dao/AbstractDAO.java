@@ -1,9 +1,6 @@
 package dao;
 
 import connection.ConnectionFactory;
-import model.Client;
-import model.Orders;
-import model.Product;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -14,6 +11,25 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Abstract class that implements the basic CRUD operations (create, read, update, delete)
+ *
+ * <p>
+ *     This class uses reflection in order to create the SQL queries and to map the results to the corresponding objects.
+ * </p>
+ *
+ * <p>
+ * Example usage:
+ * </p>
+ *
+ * <pre>
+ *     <code>
+ *         public static int insertProduct(Product product) {
+ *         return AbstractDAO.insert(product);
+ *         }
+ *     </code>
+ * </pre>
+ */
 public abstract class AbstractDAO {
 
 
@@ -22,6 +38,15 @@ public abstract class AbstractDAO {
     private final static String findStatementString = "SELECT * FROM";// product where id = ?";
     private final static String deleteStatementString = "DELETE FROM ";// product WHERE id = ?";
     private final static String selectAllStatementString = "SELECT * FROM";
+
+    /**
+     * Returns an object from the database based on its id and class
+     *
+     * @param id the id of the object to be returned
+     * @param objClass the class of the object to be returned
+     * @return the object with the specified id, from the correct table
+     * @throws RuntimeException if the object cannot be returned
+     */
 
     public static Object findById(int id, Class<? extends Object> objClass) {
         String findString = findStatementString + " " + objClass.getSimpleName().toLowerCase() + " where id = ?";
@@ -62,6 +87,14 @@ public abstract class AbstractDAO {
         }
         return obj;
     }
+
+    /**
+     * Inserts an object into the database
+     *
+     * @param obj the object to be inserted
+     * @return the id of the inserted object
+     * @throws RuntimeException if the object cannot be inserted
+     */
 
     public static int insert(Object obj) {
         Connection dbConnection = ConnectionFactory.getConnection();
@@ -107,6 +140,13 @@ public abstract class AbstractDAO {
         return insertedId;
     }
 
+    /**
+     * Updates an object in the database
+     *
+     * @param obj the object to be updated
+     * @throws IllegalArgumentException if the object is not valid
+     * @throws SecurityException if the object cannot be accessed
+     */
     public static void update(Object obj) {
         Connection connection = ConnectionFactory.getConnection();
         String tableName = obj.getClass().getSimpleName().toLowerCase();
@@ -155,6 +195,14 @@ public abstract class AbstractDAO {
     }
 
 
+    /**
+     * Deletes an object from the database
+     *
+     * @param id the id of the object to be deleted
+     * @param objClass the class of the object to be deleted
+     * @return the id of the deleted object
+     * @throws RuntimeException if the object cannot be deleted
+     */
     public static int delete(int id, Class<? extends Object> objClass) {
         Connection dbConnection = ConnectionFactory.getConnection();
 
@@ -180,50 +228,13 @@ public abstract class AbstractDAO {
         return deletedId;
     }
 
-    /*public static List<?> selectAll(Class<? extends Object> objClass) {
-        Connection dbConnection = ConnectionFactory.getConnection();
-        String selectAllStatementString = "SELECT * FROM " + objClass.getSimpleName().toLowerCase();
-
-        PreparedStatement selectAllStatement = null;
-        List<Object> toReturn = new ArrayList<Object>();
-        try {
-            selectAllStatement = dbConnection.prepareStatement(selectAllStatementString);
-            ResultSet rs = selectAllStatement.executeQuery();
-            while(rs.next()) {
-                switch (objClass.getSimpleName()) {
-                    case "Client":
-                        int id = rs.getInt("id");
-                        String name = rs.getString("name");
-                        String address = rs.getString("address");
-                        String email = rs.getString("email");
-                        int age = rs.getInt("age");
-                        toReturn.add(new Client(id, name, address, email, age));
-                    break;
-                    case "Product":
-                        int idP = rs.getInt("id");
-                        String nameP = rs.getString("name");
-                        float price = rs.getFloat("price");
-                        int quantity = rs.getInt("quantity");
-                        toReturn.add(new Product(idP, nameP, price, quantity));
-                    break;
-                    case "Orders":
-                        int clientId = rs.getInt("clientId");
-                        int productId = rs.getInt("productId");
-                        int quantityO = rs.getInt("quantity");
-                        toReturn.add(new Orders(id, clientId, productId, quantityO));
-                    default:
-                        break;
-                }
-            }
-        } catch (SQLException e) {
-            LOGGER.log(Level.WARNING, objClass.getSimpleName().toLowerCase() +  "DAO:selectAll " + e.getMessage());
-        } finally {
-            ConnectionFactory.close(selectAllStatement);
-            ConnectionFactory.close(dbConnection);
-        }
-        return toReturn;
-    }*/
-
+    /**
+     * Selects all objects from a table in the database
+     *
+     * @param objClass the class of the objects to be selected
+     * @return a list of objects
+     * @throws RuntimeException if the objects cannot be selected
+     */
     public static List<?> selectAll(Class<? extends Object> objClass) {
         Connection dbConnection = ConnectionFactory.getConnection();
         String selectAllStatementString = "SELECT * FROM " + objClass.getSimpleName().toLowerCase();
@@ -262,6 +273,13 @@ public abstract class AbstractDAO {
         return toReturn;
     }
 
+    /**
+     * Creates a table with the objects from a list
+     *
+     * @param list the list of objects
+     * @return a JTable with the objects from the list
+     * @throws RuntimeException if the table cannot be created
+     */
     public static JTable createTable(List<? extends Object> list) {
         JTable table = new JTable();
         DefaultTableModel model = new DefaultTableModel();

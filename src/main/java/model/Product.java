@@ -1,6 +1,13 @@
 package model;
 
-
+/**
+ * The Product class is used to create objects that represent the products in the database.
+ * It has the following attributes:
+ * id - the id of the product,
+ * name - the name of the product,
+ * price - the price of the product,
+ * quantity - the quantity of the product in stock.
+ */
 public class Product {
     public int id;
     private String name;

@@ -1,4 +1,8 @@
 package model;
+
+/**
+ * The Client class is used to model the clients of the store.
+ */
 public class Client {
 	public int id;
 	private String name;
@@ -66,6 +70,9 @@ public class Client {
 		this.email = email;
 	}
 
+	/**
+	 * The toString method is used to print the client's details.
+	 */
 	@Override
 	public String toString() {
 		return "Client [id=" + id + ", name=" + name + ", address=" + address + ", email=" + email + ", age=" + age
