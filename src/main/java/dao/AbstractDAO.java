@@ -2,6 +2,7 @@ package dao;
 
 import connection.ConnectionFactory;
 import model.Client;
+import model.Orders;
 import model.Product;
 
 import javax.swing.*;
@@ -23,49 +24,43 @@ public abstract class AbstractDAO {
     private final static String selectAllStatementString = "SELECT * FROM";
 
     public static Object findById(int id, Class<? extends Object> objClass) {
-        Object toReturn = null;
-
         String findString = findStatementString + " " + objClass.getSimpleName().toLowerCase() + " where id = ?";
 
         Connection dbConnection = ConnectionFactory.getConnection();
         PreparedStatement findStatement = null;
         ResultSet rs = null;
+        Object obj = null;
         try {
             findStatement = dbConnection.prepareStatement(findString);
             findStatement.setLong(1, id);
             rs = findStatement.executeQuery();
-            rs.next();
-
-            switch (objClass.getSimpleName()) {
-                case "Client":
-                    String name = rs.getString("name");
-                    String address = rs.getString("address");
-                    String email = rs.getString("email");
-                    int age = rs.getInt("age");
-                    toReturn = new Client(id, name, address, email, age);
-                break;
-                case "Product":
-                    String nameP = rs.getString("name");
-                    float price = rs.getFloat("price");
-                    int quantity = rs.getInt("quantity");
-                    toReturn = new Product(id, nameP, price, quantity);
-                break;
-                case "Order":
-                    int clientId = rs.getInt("clientId");
-                    int productId = rs.getInt("productId");
-                    int quantityO = rs.getInt("quantity");
-                    //toReturn = new Order(id, clientId, productId, quantityO);
-                default:
-                    break;
+            if(rs.next()) {
+                obj = objClass.newInstance();
+                Field[] fields = objClass.getDeclaredFields();
+                for(Field field : fields) {
+                    String fieldName = field.getName();
+                    Object fieldValue = rs.getObject(fieldName);
+                    field.setAccessible(true);
+                    if (field.getType() == float.class) {
+                        float floatValue = ((Double) fieldValue).floatValue();
+                        field.set(obj, floatValue);
+                    } else {
+                        field.set(obj, fieldValue);
+                    }
+                }
             }
         } catch (SQLException e) {
             LOGGER.log(Level.WARNING, objClass.getSimpleName().toLowerCase() + "DAO:findById " + e.getMessage());
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
         } finally {
             ConnectionFactory.close(rs);
             ConnectionFactory.close(findStatement);
             ConnectionFactory.close(dbConnection);
         }
-        return toReturn;
+        return obj;
     }
 
     public static int insert(Object obj) {
@@ -185,7 +180,7 @@ public abstract class AbstractDAO {
         return deletedId;
     }
 
-    public static List<?> selectAll(Class<? extends Object> objClass) {
+    /*public static List<?> selectAll(Class<? extends Object> objClass) {
         Connection dbConnection = ConnectionFactory.getConnection();
         String selectAllStatementString = "SELECT * FROM " + objClass.getSimpleName().toLowerCase();
 
@@ -211,17 +206,55 @@ public abstract class AbstractDAO {
                         int quantity = rs.getInt("quantity");
                         toReturn.add(new Product(idP, nameP, price, quantity));
                     break;
-                    case "Order":
+                    case "Orders":
                         int clientId = rs.getInt("clientId");
                         int productId = rs.getInt("productId");
                         int quantityO = rs.getInt("quantity");
-                        //clients.add(new Order(id, clientId, productId, quantityO));
+                        toReturn.add(new Orders(id, clientId, productId, quantityO));
                     default:
                         break;
                 }
             }
         } catch (SQLException e) {
             LOGGER.log(Level.WARNING, objClass.getSimpleName().toLowerCase() +  "DAO:selectAll " + e.getMessage());
+        } finally {
+            ConnectionFactory.close(selectAllStatement);
+            ConnectionFactory.close(dbConnection);
+        }
+        return toReturn;
+    }*/
+
+    public static List<?> selectAll(Class<? extends Object> objClass) {
+        Connection dbConnection = ConnectionFactory.getConnection();
+        String selectAllStatementString = "SELECT * FROM " + objClass.getSimpleName().toLowerCase();
+
+        PreparedStatement selectAllStatement = null;
+        List<Object> toReturn = new ArrayList<Object>();
+        try {
+            selectAllStatement = dbConnection.prepareStatement(selectAllStatementString);
+            ResultSet rs = selectAllStatement.executeQuery();
+            while(rs.next()) {
+                Object obj = objClass.newInstance();
+                Field[] fields = objClass.getDeclaredFields();
+                for(Field field : fields) {
+                    String columnName = field.getName();
+                    Object columnValue = rs.getObject(columnName);
+                    field.setAccessible(true);
+                    if (field.getType() == float.class) {
+                        float floatValue = ((Double) columnValue).floatValue();
+                        field.set(obj, floatValue);
+                    } else {
+                        field.set(obj, columnValue);
+                    }
+                }
+                toReturn.add(obj);
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.WARNING, objClass.getSimpleName().toLowerCase() +  "DAO:selectAll " + e.getMessage());
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
         } finally {
             ConnectionFactory.close(selectAllStatement);
             ConnectionFactory.close(dbConnection);

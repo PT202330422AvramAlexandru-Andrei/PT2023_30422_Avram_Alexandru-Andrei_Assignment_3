@@ -1,5 +1,7 @@
 package model;
 
+import dao.AbstractDAO;
+
 public class Orders {
     int id;
     int product_id;
@@ -15,11 +17,14 @@ public class Orders {
         this.total = total;
     }
 
-    public Orders(int product_id, int client_id, int quantity, float total) {
+    public Orders(){}
+
+    public Orders(int product_id, int client_id, int quantity) {
         this.product_id = product_id;
+        Product product = (Product) AbstractDAO.findById(this.product_id, Product.class);
         this.client_id = client_id;
         this.quantity = quantity;
-        this.total = total;
+        this.total = product.getPrice() * quantity;
     }
 
     public int getId() {

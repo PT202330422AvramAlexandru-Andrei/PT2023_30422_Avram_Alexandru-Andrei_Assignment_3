@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import model.Orders;
 
 import javax.swing.*;
@@ -61,7 +62,21 @@ public class OrderController {
     }
 
     @FXML
-    public void addOrder() {
+    public TextField client_id;
+    @FXML
+    public TextField product_id;
+    @FXML
+    public TextField quantity;
 
+    @FXML
+    public void addOrder() {
+        int client_id = Integer.parseInt(this.client_id.getText());
+        int product_id = Integer.parseInt(this.product_id.getText());
+        int quantity = Integer.parseInt(this.quantity.getText());
+        productBLL.insertOrder(product_id, client_id, quantity);
+        frame.setContentPane(scrollPane);
+        frame.pack();
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 }

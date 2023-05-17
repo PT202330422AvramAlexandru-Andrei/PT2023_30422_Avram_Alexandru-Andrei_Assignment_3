@@ -7,6 +7,10 @@ public class Product {
     private float price;
     private int quantity;
 
+    //no argument constructor for using .newInstance() method
+    public Product () {
+    }
+
     public Product (int id, String name, float price, int quantity) {
         this.id = id;
         this.name = name;
