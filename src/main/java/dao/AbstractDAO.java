@@ -1,9 +1,7 @@
 package dao;
 
 import connection.ConnectionFactory;
-import javafx.beans.binding.ObjectExpression;
 import model.Client;
-import model.Order;
 import model.Product;
 
 import javax.swing.*;
@@ -22,7 +20,6 @@ public abstract class AbstractDAO {
     private static final String insertStatementString = "INSERT INTO";// product (id,name,price,quantity)" + " VALUES (?,?,?,?)";
     private final static String findStatementString = "SELECT * FROM";// product where id = ?";
     private final static String deleteStatementString = "DELETE FROM ";// product WHERE id = ?";
-    private final static String updateStatementString = "UPDATE";// product SET name = ?, price = ?, quantity = ? WHERE id = ?";
     private final static String selectAllStatementString = "SELECT * FROM";
 
     public static Object findById(int id, Class<? extends Object> objClass) {
