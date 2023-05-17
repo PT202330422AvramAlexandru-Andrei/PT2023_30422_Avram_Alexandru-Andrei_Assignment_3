@@ -1,6 +1,7 @@
 package presentation;
 
 import bll.OrderBLL;
+import bll.ProductBLL;
 import dao.AbstractDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,7 +9,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import model.Client;
 import model.Orders;
+import model.Product;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -16,7 +19,7 @@ import java.io.IOException;
 
 public class OrderController {
 
-    OrderBLL productBLL = new OrderBLL();
+    OrderBLL orderBLL = new OrderBLL();
 
     JFrame frame = new JFrame("Orders Table");
     JTable orderTable = AbstractDAO.createTable(AbstractDAO.selectAll(Orders.class));
@@ -73,7 +76,21 @@ public class OrderController {
         int client_id = Integer.parseInt(this.client_id.getText());
         int product_id = Integer.parseInt(this.product_id.getText());
         int quantity = Integer.parseInt(this.quantity.getText());
-        productBLL.insertOrder(product_id, client_id, quantity);
+        ProductBLL productBLL = new ProductBLL();
+        Product product = (Product) AbstractDAO.findById(product_id, Product.class);
+
+        if (product.getQuantity() < quantity) {
+            JOptionPane.showMessageDialog(null, "Not enough products in stock!");
+            return;
+        }
+
+        orderBLL.insertOrder(product_id, client_id, quantity);
+
+        ProductBLL.updateProduct(product_id, product.getName(), product.getQuantity() - quantity, product.getPrice());
+
+        orderTable = AbstractDAO.createTable(AbstractDAO.selectAll(Orders.class));
+        scrollPane = new JScrollPane(orderTable);
+
         frame.setContentPane(scrollPane);
         frame.pack();
         frame.setVisible(true);

@@ -75,6 +75,7 @@ public class ProductController {
     @FXML
     public void viewProducts() throws IOException {
 
+        productTable = AbstractDAO.createTable(AbstractDAO.selectAll(Product.class));
         frame.setContentPane(scrollPane);
         frame.pack();
         frame.setVisible(true);
@@ -92,6 +93,7 @@ public class ProductController {
     public void addProduct() {
         Product product = new Product(name.getText(), Float.parseFloat(price.getText()), Integer.parseInt(quantity.getText()));
         productBLL.insertProduct(product);
+        productTable = AbstractDAO.createTable(AbstractDAO.selectAll(Product.class));
         scrollPane = new JScrollPane(productTable);
         frame.setContentPane(scrollPane);
         frame.pack();
@@ -105,6 +107,7 @@ public class ProductController {
     @FXML
     public void deleteProduct() {
         productBLL.deleteProduct(Integer.parseInt(deleteId.getText()));
+        productTable = AbstractDAO.createTable(AbstractDAO.selectAll(Product.class));
 
         scrollPane = new JScrollPane(productTable);
         frame.setContentPane(scrollPane);
@@ -126,6 +129,7 @@ public class ProductController {
     @FXML
     public void editProduct() {
         ProductBLL.updateProduct(Integer.parseInt(editId.getText()), editName.getText(), Integer.parseInt(editQuantity.getText()), Float.parseFloat(editPrice.getText()));
+        productTable = AbstractDAO.createTable(AbstractDAO.selectAll(Product.class));
         scrollPane = new JScrollPane(productTable);
         frame.setContentPane(scrollPane);
         frame.pack();
